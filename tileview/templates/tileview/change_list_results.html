@@ -1,0 +1,35 @@
+{% load i18n static %}
+{% load return_item %}
+{% load normalize_checkbox %}
+{% if result_hidden_fields %}
+<div class="hiddenfields">{# DIV for HTML validation #}
+{% for item in result_hidden_fields %}{{ item }}{% endfor %}
+</div>
+{% endif %}
+{% if results %}
+<div class="results">
+{% for result in results %}
+    <div class="frame">
+        {% for header in result_headers %}
+            {% if forloop.counter0 == 0 %}
+                {{ result|return_item:forloop.counter0|normalize_checkbox }}
+            {% elif forloop.counter0 == 1 %}
+                <div class="image">{{ result|return_item:forloop.counter0 }}</div>
+            {% elif forloop.counter0 == 2 %}
+                <table class="table">
+                <tr>
+                    <td>{{ header.text|capfirst }}</td>
+                    {{ result|return_item:forloop.counter0 }}
+                </tr>
+            {% else %}
+                <tr>
+                    <td>{{ header.text|capfirst }}</td>
+                    {{ result|return_item:forloop.counter0 }}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+    </div>
+{% endfor %}
+</div>
+{% endif %}
